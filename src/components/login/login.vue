@@ -31,21 +31,21 @@ export default {
     }
   },
   methods:{
-    handlerLogin(){
-      this.$http.post('login',this.formdata)
-      .then((res)=>{
+   async handlerLogin(){
+    const res = await this.$http.post('login',this.formdata)
         const{
           data,
           meta:{msg,status}
         } = res.data;
         //成功
         if(status === 200){
-          //this.$router.push({name:'home'});
+          localStorage.setItem('token',data.token);
           this.$message.success(msg);
+          this.$router.push({name:'home'});
         }else{
           this.$message.warning(msg);
         }
-      })
+      
     }
   }
 }

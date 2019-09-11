@@ -3,7 +3,7 @@ import axios from 'axios'
 const MyHttpServer = {}
 
 MyHttpServer.install = function (Vue) {
-  axios.defaults.baseURL = 'http://api.xiaomadagege.cn:8808/api/private/v1/'
+  axios.defaults.baseURL = 'http://api.xiaomadagege.cn:3001/api/private/v1/'
   Vue.prototype.$http = axios
 }
 
