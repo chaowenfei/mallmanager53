@@ -22,6 +22,7 @@
       <!-- 侧边栏导航 -->
       <el-menu
       :unique-opened ="true"
+      :router="true"
       >
         <!-- 1 -->
         <el-submenu index="1">
@@ -30,7 +31,7 @@
             <span>用户管理</span>
           </template>
           <!-- <template slot="title">分组一</template> -->
-          <el-menu-item index="1-1">
+          <el-menu-item index="users">
             <i class="el-icon-user"></i>
             <span>用户列表</span>
           </el-menu-item>
@@ -97,7 +98,9 @@
         </el-submenu>
       </el-menu>
     </el-aside>
-    <el-main class="main">Main</el-main>
+    <el-main class="main">
+      <router-view></router-view>
+    </el-main>
   </el-container>
 </el-container>
 </template>
