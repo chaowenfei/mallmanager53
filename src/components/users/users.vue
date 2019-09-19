@@ -16,7 +16,7 @@
     </el-col>
   </el-row>
   <!-- 表格 -->
-  <el-table :data="userlist" style="width: 100%" >
+  <el-table :data="userlist" style="width: 100%">
     <el-table-column type="index" label="#" width="60">
     </el-table-column>
     <el-table-column prop="username" label="姓名" width="180">
@@ -32,39 +32,16 @@
     </el-table-column>
     <el-table-column label="用户状态">
       <template slot-scope="scope">
-        <el-switch 
-          @change="changeMgState(scope.row)"
-          v-model="scope.row.mg_state" 
-          active-color="#13ce66" 
-          inactive-color="#ff4949">
+        <el-switch @change="changeMgState(scope.row)" v-model="scope.row.mg_state" active-color="#13ce66" inactive-color="#ff4949">
         </el-switch>
       </template>
     </el-table-column>
-    <el-table-column  label="操作">
+    <el-table-column label="操作">
       <template slot-scope="scope">
-        <el-button 
-          size="mini" 
-          plain type="primary" 
-          icon="el-icon-edit" 
-          circle
-          @click="showEditUserDia(scope.row)"
-        >
+        <el-button size="mini" plain type="primary" icon="el-icon-edit" circle @click="showEditUserDia(scope.row)">
         </el-button>
-        <el-button 
-          size="mini" 
-          plain 
-          type="danger" 
-          icon="el-icon-delete" 
-          circle
-          @click="showDeleteUserMsgBox(scope.row.id)"
-        ></el-button>
-        <el-button
-          @click="showSetUserRoleDia(scope.row)" 
-          size="mini" 
-          plain 
-          type="success" 
-          icon="el-icon-check" 
-          circle>
+        <el-button size="mini" plain type="danger" icon="el-icon-delete" circle @click="showDeleteUserMsgBox(scope.row.id)"></el-button>
+        <el-button @click="showSetUserRoleDia(scope.row)" size="mini" plain type="success" icon="el-icon-check" circle>
         </el-button>
       </template>
     </el-table-column>
@@ -96,7 +73,6 @@
     </div>
   </el-dialog>
 
-
   <!-- 编辑用户的对话框 -->
   <el-dialog title="编辑用户" :visible.sync="dialogFormVisibleEdit">
     <el-form :model="form">
@@ -118,25 +94,23 @@
 
   <!-- 分配角色的对话框 -->
   <el-dialog title="分配角色" :visible.sync="dialogFormVisibleRol">
-  <el-form :model="form">
-    <el-form-item label="用户名" label-width="100px">
-      {{currUsername}}
-    </el-form-item>
-    <el-form-item label="角色" label-width="100px">
-      <el-select v-model="currRoleId">
-        <el-option label="请选择" :value="-1"></el-option>
-        <el-option :label="item.roleName" :value="item.id"
-          v-for="(item,i) in roles" :key="i"
-        >
-        </el-option>
-      </el-select>
-    </el-form-item>
-  </el-form>
-  <div slot="footer" class="dialog-footer">
-    <el-button @click="dialogFormVisibleRol = false">取 消</el-button>
-    <el-button type="primary" @click="setRole()">确 定</el-button>
-  </div>
-</el-dialog>
+    <el-form :model="form">
+      <el-form-item label="用户名" label-width="100px">
+        {{currUsername}}
+      </el-form-item>
+      <el-form-item label="角色" label-width="100px">
+        <el-select v-model="currRoleId">
+          <el-option label="请选择" :value="-1"></el-option>
+          <el-option :label="item.roleName" :value="item.id" v-for="(item,i) in roles" :key="i">
+          </el-option>
+        </el-select>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="dialogFormVisibleRol = false">取 消</el-button>
+      <el-button type="primary" @click="setRole()">确 定</el-button>
+    </div>
+  </el-dialog>
 </el-card>
 </template>
 
@@ -151,22 +125,22 @@ export default {
       pagesize: 2,
       total: -1,
       //添加对话框的属性
-      dialogFormVisibleAdd:false,
+      dialogFormVisibleAdd: false,
       //编辑用户对话框的属性
-      dialogFormVisibleEdit:false,
+      dialogFormVisibleEdit: false,
       //分配角色的对话框的属性
-      dialogFormVisibleRol:false,
+      dialogFormVisibleRol: false,
       //添加用户的表单数据
-      form:{
-        username:'',
-        password:'',
-        email:'',
-        mobile:'',
+      form: {
+        username: '',
+        password: '',
+        email: '',
+        mobile: '',
       },
-      currRoleId:-1,
-      currUsername:'',
-      roles:[],
-      currentUserId:''
+      currRoleId: -1,
+      currUsername: '',
+      roles: [],
+      currentUserId: ''
     }
   },
   created() {
@@ -174,13 +148,15 @@ export default {
   },
   methods: {
     //设置角色
-    async setRole(){
-      const res =await this.$http.put(`users/${this.currentUserId}/role`,{rid:this.currRoleId});
+    async setRole() {
+      const res = await this.$http.put(`users/${this.currentUserId}/role`, {
+        rid: this.currRoleId
+      });
       //关闭对话框
       this.dialogFormVisibleRol = false;
     },
     //分配角色
-    async showSetUserRoleDia(user){
+    async showSetUserRoleDia(user) {
       this.currUsername = user.username;
       this.dialogFormVisibleRol = true;
       this.currentUserId = user.id;
@@ -188,63 +164,69 @@ export default {
       const res = await this.$http.get(`users/${user.id}`);
       //获取当前用户的角色name
       const res1 = await this.$http.get(`roles`);
-      this.roles=res1.data.data;
-      this.currRoleId=res.data.data.rid
+      this.roles = res1.data.data;
+      this.currRoleId = res.data.data.rid
     },
     //修改用户状态
-    async changeMgState(user){
-      const res =await this.$http.put(`users/${user.id}/state/${user.mg_state}`);
+    async changeMgState(user) {
+      const res = await this.$http.put(`users/${user.id}/state/${user.mg_state}`);
     },
     //编辑用户，发送请求
-    async editUser(){
-      const res = await this.$http.put(`users/${this.form.id}`,this.form);
+    async editUser() {
+      const res = await this.$http.put(`users/${this.form.id}`, this.form);
       //关闭对话框
       this.dialogFormVisibleEdit = false;
       //更新视图
       this.getUserList();
     },
     //编辑用户
-    showEditUserDia(user){
+    showEditUserDia(user) {
       this.dialogFormVisibleEdit = true;
       this.form = user;
     },
     //删除用户
-    showDeleteUserMsgBox(userid){
+    showDeleteUserMsgBox(userid) {
       this.$confirm('删除用户?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(async () => {
-          //发送请求 :id 用户id
-          //1,data中有没有id    思路一
-          //2,调用方法时，把userId用形参的方式传进来  思路二
-          const res = await this.$http.delete(`users/${userid}`);
-          
-          if(res.data.meta.status === 200){
-            //回到第一页
-            this.pagenum = 1;
-            //更新视图
-            this.getUserList();
-            this.$message({
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        //发送请求 :id 用户id
+        //1,data中有没有id    思路一
+        //2,调用方法时，把userId用形参的方式传进来  思路二
+        const res = await this.$http.delete(`users/${userid}`);
+
+        if (res.data.meta.status === 200) {
+          //回到第一页
+          this.pagenum = 1;
+          //更新视图
+          this.getUserList();
+          this.$message({
             type: 'success',
             message: '删除成功!'
-            });
-          }
-          
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
+          });
+        }
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
         });
+      });
     },
     //提交添加用户的信息
-    async addUser(){
-       //关闭对话框
+    async addUser() {
+      //关闭对话框
       this.dialogFormVisibleAdd = false;
-      const res = await this.$http.post(`users`,this.form);
-      const {meta:{status,msg},data} = res.data;
-      if(status === 201){
+      const res = await this.$http.post(`users`, this.form);
+      const {
+        meta: {
+          status,
+          msg
+        },
+        data
+      } = res.data;
+      if (status === 201) {
         //提示成功信息
         this.$message.success(msg);
         //更新试图
@@ -253,15 +235,15 @@ export default {
         //this.form = {};
         for (const key in this.form) {
           if (this.form.hasOwnProperty(key)) {
-            this.form[key]='';
+            this.form[key] = '';
           }
         }
-      }else{
+      } else {
         this.$message.warning(msg);
       }
     },
     //添加用户
-    showAddUserDia(){
+    showAddUserDia() {
       this.form = {};
       this.dialogFormVisibleAdd = true;
     },
@@ -275,10 +257,6 @@ export default {
     },
     //获取用户列表的请求
     async getUserList() {
-      //需求授权的API，必须在请求头中提供TOKEN令牌
-      const AUTH_TOKEN = localStorage.getItem('token');
-      this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-
       const res = await this.$http.get(
         `users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${this.pagesize}`
       );
