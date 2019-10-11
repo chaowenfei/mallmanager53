@@ -5,6 +5,9 @@ import Home from '@/components/home/home.vue'
 import Users from '../components/users/users.vue'
 import Rights from '../components/rights/right.vue'
 import Role from '../components/rights/role.vue'
+import Goodslist from '../components/goods/goods.vue'
+import Goodsadd from '../components/goods/goodsadd.vue'
+import Gateparams from '../components/goods/cateparams.vue'
 import { Message } from 'element-ui'
 Vue.use(Router)
 
@@ -33,7 +36,23 @@ const router = new Router({
         name: 'roles',
         path: '/roles',
         component: Role
-      }]
+      },
+      {
+        name: 'goods',
+        path: '/goods',
+        component: Goodslist
+      },
+      {
+        name: 'goodsadd',
+        path: '/goodsadd',
+        component: Goodsadd
+      },
+      {
+        name: 'params',
+        path: '/params',
+        component: Gateparams
+      }
+    ]
     }
   ]
 })

@@ -4,7 +4,7 @@
     <el-row>
       <el-col :span="4">
         <div class="grid-content bg-purple">
-          <img src="../../assets/images/heima_logo.png" alt="无法显示图片">
+          
         </div>
       </el-col>
       <el-col :span="18" class="middle">
